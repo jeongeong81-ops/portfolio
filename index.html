@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>김나희 | 화학공학 학업 포트폴리오</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    /* ===== 디자인 기준 ===== */
+    :root {
+      --primary: #0F6E6E;      /* 주색: 짙은 청록 */
+      --bg: #FFFFFF;           /* 배경색 */
+      --text: #1F2328;         /* 글자색 */
+      --muted: #6B7280;        /* 보조 회색: 날짜·학기·설명용 */
+      --line: #E5E7EB;         /* 구분선 (보조 회색을 옅게) */
+      --placeholder: #E5E7EB;  /* 사진 자리 회색 상자 */
+      --header-h: 64px;
+      --max: 960px;
+      color-scheme: light;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.75;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+
+    a { color: var(--primary); }
+
+    a:focus-visible,
+    button:focus-visible,
+    summary:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== 위쪽 메뉴 ===== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .site-header .wrap {
+      height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--text);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .nav {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav::-webkit-scrollbar { display: none; }
+
+    .nav a {
+      display: block;
+      padding: 8px 12px;
+      font-size: 15px;
+      color: var(--muted);
+      text-decoration: none;
+      white-space: nowrap;
+      border-radius: 6px;
+      transition: color 0.2s, background-color 0.2s;
+    }
+
+    .nav a:hover { color: var(--text); }
+
+    .nav a.active {
+      color: var(--primary);
+      font-weight: 600;
+      background: rgba(15, 110, 110, 0.07);
+    }
+
+    /* ===== 섹션 공통 ===== */
+    section {
+      scroll-margin-top: calc(var(--header-h) + 8px);
+      padding: 88px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    section:last-of-type { border-bottom: none; }
+
+    .section-title {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 36px;
+      padding-left: 14px;
+      border-left: 4px solid var(--primary);
+      line-height: 1.3;
+    }
+
+    /* ===== 소개 (모눈종이 배경) ===== */
+    #intro {
+      padding: 112px 0 96px;
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(rgba(15, 110, 110, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 110, 110, 0.07) 1px, transparent 1px);
+      background-size: 28px 28px;
+      background-position: -1px -1px;
+    }
+
+    .intro-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+
+    .intro-line {
+      font-size: clamp(30px, 5.2vw, 48px);
+      font-weight: 700;
+      line-height: 1.32;
+      letter-spacing: -0.025em;
+      max-width: 16em;
+    }
+
+    .keywords {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 32px;
+      list-style: none;
+    }
+
+    .keywords li {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--primary);
+      background: var(--bg);
+      border: 1px solid var(--primary);
+      border-radius: 999px;
+      padding: 6px 16px;
+    }
+
+    .intro-text {
+      margin-top: 40px;
+      max-width: 40em;
+      font-size: 18px;
+      background: var(--bg);
+      padding: 4px 0;
+    }
+
+    /* ===== 전공·학업 / 역량 목록 ===== */
+    .rows { list-style: none; }
+
+    .rows li {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 24px;
+      padding: 20px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .rows li:last-child { border-bottom: 1px solid var(--line); }
+
+    .rows .name {
+      font-weight: 600;
+    }
+
+    .rows .term {
+      display: block;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .rows .desc { color: var(--text); }
+
+    .rows .task {
+      display: block;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+
+    /* ===== 대표 프로젝트 카드 ===== */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .photo {
+      aspect-ratio: 4 / 3;
+      background: var(--placeholder);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo .ph-label {
+      font-size: 13px;
+      color: var(--muted);
+      padding: 12px;
+      text-align: center;
+    }
+
+    .card-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.45;
+      letter-spacing: -0.01em;
+    }
+
+    .card .role {
+      margin-top: 12px;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    .card .role strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .card details {
+      margin-top: 20px;
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+    }
+
+    .card summary {
+      cursor: pointer;
+      list-style: none;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card summary::-webkit-details-marker { display: none; }
+
+    .card summary::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-right: 2px solid var(--primary);
+      border-bottom: 2px solid var(--primary);
+      transform: rotate(-45deg);
+      transition: transform 0.2s;
+    }
+
+    .card details[open] summary::before { transform: rotate(45deg); }
+
+    .star {
+      margin-top: 16px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .star dt {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .star dd {
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    /* ===== 카드 설명 + 자세히 보기 버튼 ===== */
+    .card-desc {
+      margin-top: 12px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text);
+    }
+
+    .more-btn {
+      margin-top: auto;
+      align-self: flex-start;
+      font: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--primary);
+      background: var(--bg);
+      border: 1px solid var(--primary);
+      border-radius: 6px;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .card-desc + .more-btn { margin-top: 20px; }
+
+    .more-btn:hover { background: var(--primary); color: #FFFFFF; }
+
+    /* ===== 카드 버튼 줄 + PDF 링크 ===== */
+    .card-actions {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 16px;
+    }
+
+    .card-actions .more-btn { margin-top: 0; }
+
+    .pdf-link {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--primary);
+      text-underline-offset: 3px;
+    }
+
+    .pdf-link:hover { color: var(--text); }
+
+    a.photo { text-decoration: none; }
+
+    .photo img { object-position: top center; }
+
+    /* ===== 자세히 보기 팝업 ===== */
+    dialog.detail {
+      width: min(720px, calc(100% - 32px));
+      max-height: calc(100% - 48px);
+      margin: auto;
+      padding: 0;
+      border: none;
+      border-radius: 12px;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+      flex-direction: column;
+    }
+
+    dialog.detail[open] { display: flex; }
+
+    dialog.detail::backdrop { background: rgba(31, 35, 40, 0.5); }
+
+    .detail-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 24px 28px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .detail-head h3 {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.45;
+      padding-left: 12px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .close-btn {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      font-size: 26px;
+      line-height: 1;
+      color: var(--muted);
+      background: none;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .close-btn:hover { color: var(--text); background: #F3F4F6; }
+
+    .detail-body {
+      overflow-y: auto;
+      padding: 20px 28px 32px;
+    }
+
+    .detail-body dt {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-top: 20px;
+    }
+
+    .detail-body dt:first-child { margin-top: 0; }
+
+    .detail-body dd {
+      margin-top: 4px;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .detail-body dd.todo {
+      color: var(--muted);
+      background: #F3F4F6;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 15px;
+    }
+
+    body.modal-open { overflow: hidden; }
+
+    @media (max-width: 767px) {
+      dialog.detail {
+        width: 100%;
+        max-width: 100%;
+        max-height: 88%;
+        margin: auto 0 0;
+        border-radius: 14px 14px 0 0;
+      }
+
+      .detail-head { padding: 20px 20px 14px; }
+
+      .detail-head h3 { font-size: 18px; }
+
+      .detail-body { padding: 16px 20px 28px; }
+    }
+
+    /* ===== FAQ 목록 (눌러서 펼치기) ===== */
+    .faq-list { border-top: 1px solid var(--line); }
+
+    .faq-item { border-bottom: 1px solid var(--line); }
+
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 0;
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.55;
+    }
+
+    .faq-item summary::-webkit-details-marker { display: none; }
+
+    .faq-item summary::after {
+      content: "";
+      flex-shrink: 0;
+      width: 8px;
+      height: 8px;
+      margin-top: 8px;
+      margin-right: 4px;
+      border-right: 2px solid var(--primary);
+      border-bottom: 2px solid var(--primary);
+      transform: rotate(45deg);
+      transition: transform 0.2s;
+    }
+
+    .faq-item[open] summary::after { transform: rotate(-135deg); margin-top: 12px; }
+
+    .faq-item summary:hover { color: var(--primary); }
+
+    .faq-item p {
+      padding: 0 0 24px;
+      max-width: 44em;
+      color: var(--text);
+    }
+
+    @media (max-width: 767px) {
+      .faq-item summary { font-size: 16px; padding: 16px 0; }
+    }
+
+    /* ===== FAQ 자리 ===== */
+    .placeholder-box {
+      background: var(--placeholder);
+      border-radius: 10px;
+      min-height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    /* ===== 연락처 ===== */
+    .contact-mail {
+      font-size: clamp(20px, 3.4vw, 28px);
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 2px;
+    }
+
+    .contact-mail:hover { color: var(--text); border-color: var(--text); }
+
+    /* ===== 휴대폰 화면 ===== */
+    @media (max-width: 767px) {
+      body { font-size: 16px; }
+
+      .wrap { padding: 0 20px; }
+
+      .site-header .wrap {
+        height: auto;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        padding-top: 12px;
+        padding-bottom: 8px;
+      }
+
+      :root { --header-h: 96px; }
+
+      .brand { font-size: 17px; }
+
+      .nav {
+        width: calc(100% + 20px);
+        margin-left: -12px;
+        padding-right: 20px;
+      }
+
+      .nav a { padding: 6px 12px; font-size: 14px; }
+
+      section { padding: 64px 0; }
+
+      #intro { padding: 72px 0 64px; }
+
+      .section-title { font-size: 22px; margin-bottom: 28px; }
+
+      .intro-text { font-size: 16px; margin-top: 32px; }
+
+      .rows li {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        padding: 16px 0;
+      }
+
+      .projects { grid-template-columns: 1fr; gap: 24px; }
+
+      .card-body { padding: 20px; }
+
+      .card h3 { font-size: 18px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== 위쪽 메뉴 ===== -->
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="#intro">김나희</a>
+      <nav class="nav" aria-label="섹션 이동">
+        <a href="#intro">소개</a>
+        <a href="#study">전공·학업</a>
+        <a href="#projects">대표 프로젝트</a>
+        <a href="#skills">역량</a>
+        <a href="#faq">자주 묻는 질문</a>
+        <a href="#contact">연락처</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===== 1. 소개 ===== -->
+    <section id="intro">
+      <div class="wrap">
+        <h1 class="intro-title">김나희 | 화학공학 학업 포트폴리오</h1>
+        <p class="intro-line">모르는 것은 근거를 찾아 확인하며 배우는 화학공학도</p>
+        <ul class="keywords" aria-label="키워드">
+          <li>근거 확인</li>
+          <li>데이터 도구 학습</li>
+          <li>소통과 안내</li>
+        </ul>
+        <p class="intro-text">경상국립대학교 화학공학과 2학년 김나희입니다. 답을 빨리 내는 것보다 그 답이 맞는지 확인하는 데 공을 들이며, 화학공학 시험원을 목표로 공부하고 있습니다.</p>
+      </div>
+    </section>
+
+    <!-- ===== 2. 전공·학업 ===== -->
+    <section id="study">
+      <div class="wrap">
+        <h2 class="section-title">전공·학업</h2>
+        <ul class="rows">
+          <li>
+            <div class="name">물리학1<span class="term">1학년 1학기</span></div>
+            <p class="desc">원뿔 진자 문제에서 힘을 수직·수평 성분으로 나눠 장력과 주기를 유도했다.</p>
+          </li>
+          <li>
+            <div class="name">물리학실험1<span class="term">1학년 1학기</span></div>
+            <p class="desc">조별 단진자 실험에서 측정값과 계산값을 다시 확인하는 역할을 맡았고, 중력 가속도의 상대오차는 0.83~2.14%였다.</p>
+          </li>
+          <li>
+            <div class="name">공학수학2<span class="term">2학년 2학기</span></div>
+            <p class="desc">라플라스 변환, 역변환, 이동정리를 익히고 20문항의 풀이를 직접 정리했다.</p>
+          </li>
+          <li>
+            <div class="name">화공전산<span class="term">2학년 2학기</span></div>
+            <p class="desc">MATLAB Onramp를 수료하며 행렬 기반 코딩의 기초를 익혔다.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== 3. 대표 프로젝트 ===== -->
+    <section id="projects">
+      <div class="wrap">
+        <h2 class="section-title">대표 프로젝트</h2>
+        <div class="projects">
+
+          <!-- 프로젝트 1 -->
+          <article class="card">
+            <a class="photo" href="files/physics_report_real.pdf" target="_blank" rel="noopener" aria-label="원본 PDF 열기">
+              <img src="images/project1.jpg" alt="단진자를 이용한 중력 가속도 측정 사진" data-file="images/project1.jpg">
+            </a>
+            <div class="card-body">
+              <h3>1. 단진자를 이용한 중력 가속도 측정 (물리학실험1)</h3>
+              <p class="card-desc">조별 단진자 실험에서 측정값과 계산값을 다시 확인하는 역할을 맡았다.<br>세 추의 상대오차는 0.83~2.14%로 모두 5% 기준 안에 들었다.</p>
+              <div class="card-actions">
+                <button type="button" class="more-btn" data-open="detail-1">자세히 보기</button>
+                <a class="pdf-link" href="files/physics_report_real.pdf" target="_blank" rel="noopener">보고서 PDF 보기</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 프로젝트 2 -->
+          <article class="card">
+            <a class="photo" href="files/engmath2_hw1.pdf" target="_blank" rel="noopener" aria-label="원본 PDF 열기">
+              <img src="images/project2.jpg" alt="라플라스 변환 풀이 과제 사진" data-file="images/project2.jpg">
+            </a>
+            <div class="card-body">
+              <h3>2. 라플라스 변환 풀이 과제 (공학수학2)</h3>
+              <p class="card-desc">라플라스 변환 과제 4개 단원, 20문항의 풀이를 직접 작성했다.<br>막혔던 역변환 공식은 강의자료를 거듭 보며 익혔다.</p>
+              <div class="card-actions">
+                <button type="button" class="more-btn" data-open="detail-2">자세히 보기</button>
+                <a class="pdf-link" href="files/engmath2_hw1.pdf" target="_blank" rel="noopener">과제 PDF 보기</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 프로젝트 3 -->
+          <article class="card">
+            <a class="photo" href="files/gnu_buddy_certificate.pdf" target="_blank" rel="noopener" aria-label="원본 PDF 열기">
+              <img src="images/project3.jpg" alt="GNU Buddy 활동 사진" data-file="images/project3.jpg">
+            </a>
+            <div class="card-body">
+              <h3>3. GNU Buddy: 중국인 유학생 3명의 학교생활 적응 지원</h3>
+              <p class="card-desc">중국인 유학생 3명의 버디로 132시간 동안 학교생활 적응을 도왔다.<br>낯선 행정 절차는 학교 공식 홈페이지에서 확인한 뒤 안내했다.</p>
+              <div class="card-actions">
+                <button type="button" class="more-btn" data-open="detail-3">자세히 보기</button>
+                <a class="pdf-link" href="files/gnu_buddy_certificate.pdf" target="_blank" rel="noopener">활동확인서 PDF 보기</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 자세히 보기 팝업 1 ===== -->
+    <dialog class="detail" id="detail-1" aria-labelledby="detail-1-title">
+      <div class="detail-head">
+        <h3 id="detail-1-title">단진자를 이용한 중력 가속도 측정 (물리학실험1)</h3>
+        <button type="button" class="close-btn" aria-label="닫기">&times;</button>
+      </div>
+      <dl class="detail-body">
+        <dt>배경</dt>
+        <dd>1학년 1학기 물리학실험1에서 조별로 단진자를 이용해 중력 가속도를 측정했다. 회전센서와 추 3개를 사용했고, 추마다 진자 길이를 0.214 m, 0.457 m, 0.208 m로 달리해 주기를 세 번씩 쟀다.</dd>
+        <dt>내 역할</dt>
+        <dd>조에서 측정값과 계산값이 맞는지 다시 확인하는 역할을 맡았다.</dd>
+        <dt>과정과 어려움</dt>
+        <dd>조교님이 정한 기준(소수점 셋째 자리, 유효숫자 4개, 상대오차 5% 이하)에 맞춰 값을 점검했다. 공학용 계산기로 평균 주기를 다시 구하고, g = 4π²L/T²로 중력 가속도를, 이론값 9.807 m/s²와의 상대오차를 차례로 다시 계산해 보고서 값과 대조했다. 세 추 가운데 세 번째 추의 상대오차가 2.141%로 가장 컸다.</dd>
+        <dt>해결</dt>
+        <dd>개인 고찰에서 이 오차의 원인을 실의 질량을 무시한 데서 찾았다. 가볍고 질량이 균일한 실을 쓰는 방법을 제시했고, 실의 질량이 크다면 실의 질량과 길이를 고려해 유효 진자 길이를 보정하는 방법도 제시했다.</dd>
+        <dt>결과</dt>
+        <dd>세 추의 중력 가속도는 9.597~9.726 m/s²였고, 상대오차는 0.83~2.14%로 모두 5% 기준 안에 들었다.</dd>
+        <dt>배운 점</dt>
+        <dd>보고서 고찰에 정리했듯, 추에 가해지는 힘에 따른 그래프를 보며 추에 약한 힘을 가해도 원하는 결과값을 충분히 얻을 수 있다는 것을 알게 되었다. 또 값을 다시 확인하는 역할을 맡으며, 계산 결과를 그대로 믿기보다 정해진 기준에 비추어 한 번 더 점검하는 것이 실험 결과의 신뢰를 높인다는 것을 배웠다.</dd>
+      </dl>
+    </dialog>
+
+    <!-- ===== 자세히 보기 팝업 2 ===== -->
+    <dialog class="detail" id="detail-2" aria-labelledby="detail-2-title">
+      <div class="detail-head">
+        <h3 id="detail-2-title">라플라스 변환 풀이 과제 (공학수학2)</h3>
+        <button type="button" class="close-btn" aria-label="닫기">&times;</button>
+      </div>
+      <dl class="detail-body">
+        <dt>배경</dt>
+        <dd>2학년 2학기 공학수학2 수업에서 라플라스 변환을 다루는 첫 과제가 나왔다. 문항은 변환, 역변환, 제1이동정리, 제2이동정리의 4개 단원, 총 20문항이었다.</dd>
+        <dt>내 역할</dt>
+        <dd>20문항 전체의 풀이를 직접 작성했다.</dd>
+        <dt>과정과 어려움</dt>
+        <dd>그래프로 주어진 구간함수는 적분 구간을 나눠 정의대로 계산했고, 경사 형태의 함수는 부분적분으로 풀었다. 가장 막힌 곳은 역변환이었다. 어떤 공식을 써야 할지 잘 떠오르지 않았다.</dd>
+        <dt>해결</dt>
+        <dd>강의자료를 계속 다시 보며 공식을 하나씩 익혔다. 익힌 공식을 바탕으로 분모를 부분분수나 완전제곱식으로 바꿨다. e^(−as) 항이 붙은 문항은 제2이동정리로 단위계단함수 u(t−a)를 써서 나타냈다.</dd>
+        <dt>결과</dt>
+        <dd>4개 단원 20문항의 풀이를 손글씨 2쪽으로 정리했다.</dd>
+        <dt>배운 점</dt>
+        <dd>공식이 떠오르지 않을 때 짐작으로 풀기보다 강의자료로 돌아가 근거를 확인하는 편이 결국 더 정확하고 빠르다는 것을 배웠다. 문제를 보면 부분분수, 완전제곱식, 이동정리 중 어떤 방법을 쓸지 먼저 판단하는 습관도 생겼다.</dd>
+      </dl>
+    </dialog>
+
+    <!-- ===== 자세히 보기 팝업 3 ===== -->
+    <dialog class="detail" id="detail-3" aria-labelledby="detail-3-title">
+      <div class="detail-head">
+        <h3 id="detail-3-title">GNU Buddy: 중국인 유학생 3명의 학교생활 적응 지원</h3>
+        <button type="button" class="close-btn" aria-label="닫기">&times;</button>
+      </div>
+      <dl class="detail-body">
+        <dt>배경</dt>
+        <dd>1학년 2학기에 경상국립대학교 국제처의 GNU Buddy 프로그램에 참여했다. 입학 첫 학기를 맞은 외국인 유학생의 학교생활 적응을 돕는 프로그램이다.</dd>
+        <dt>내 역할</dt>
+        <dd>중국인 유학생 3명을 담당하는 버디를 맡았다.</dd>
+        <dt>과정과 어려움</dt>
+        <dd>일주일에 1~2번 학생들을 만나 수강신청, 외국인등록증 발급, 보험 문의와 납부 방법을 안내했다. 학업 면에서는 과제 내용을 이해하도록 도왔고, 공결이 필요할 때 교수님께 문의 메일을 보내는 방법을 알려 줬다. 대부분의 절차가 나에게도 처음이라 어려웠다.</dd>
+        <dt>해결</dt>
+        <dd>국제처를 비롯한 학교 공식 홈페이지를 직접 찾아보며 방법을 확인한 뒤 안내했다.</dd>
+        <dt>결과</dt>
+        <dd>2025년 9월 1일부터 12월 23일까지 132시간 동안 활동했고, 국제처장 명의의 활동확인서를 받았다. 학생들이 점차 한국생활에 적응하고 한국어 실력도 늘어 가는 것을 볼 수 있었다. 나도 같은 일을 반복하면서 안내가 점점 능숙해졌다.</dd>
+        <dt>배운 점</dt>
+        <dd>모르는 절차를 안내하려면 내가 먼저 공식 자료로 정확히 확인해야 상대에게도 믿을 수 있는 정보를 줄 수 있다는 것을 배웠다. 같은 내용이라도 상대의 입장에서 순서대로 풀어 설명할 때 더 잘 전달된다는 것도 알게 되었다.</dd>
+      </dl>
+    </dialog>
+
+    <!-- ===== 4. 역량 ===== -->
+    <section id="skills">
+      <div class="wrap">
+        <h2 class="section-title">역량</h2>
+        <ul class="rows">
+          <li>
+            <div class="name">MATLAB (행렬 기반 코딩 기초)</div>
+            <p class="desc"><span class="task">화공전산</span>MATLAB Onramp 과정을 수료했다.</p>
+          </li>
+          <li>
+            <div class="name">공학용 계산기</div>
+            <p class="desc"><span class="task">물리학실험1</span>평균 주기, 중력 가속도, 상대오차를 다시 계산했다.</p>
+          </li>
+          <li>
+            <div class="name">회전센서</div>
+            <p class="desc"><span class="task">물리학실험1</span>조별로 단진자의 주기를 측정했다.</p>
+          </li>
+          <li>
+            <div class="name">유효숫자·자릿수 기준 적용</div>
+            <p class="desc"><span class="task">물리학실험1</span>조교님이 정한 기준에 맞춰 측정값과 계산값을 점검했다.</p>
+          </li>
+          <li>
+            <div class="name">상대오차 계산·오차 원인 분석</div>
+            <p class="desc"><span class="task">물리학실험1</span>개인 고찰에서 오차 원인과 보정 방안을 제시했다.</p>
+          </li>
+          <li>
+            <div class="name">힘의 성분 분해</div>
+            <p class="desc"><span class="task">물리학1</span>원뿔 진자의 장력과 주기를 유도했다.</p>
+          </li>
+          <li>
+            <div class="name">라플라스 변환·역변환, 이동정리</div>
+            <p class="desc"><span class="task">공학수학2</span>20문항의 풀이를 작성했다.</p>
+          </li>
+          <li>
+            <div class="name">부분분수 분해·완전제곱식·부분적분</div>
+            <p class="desc"><span class="task">공학수학2</span>역변환과 구간함수 변환에 활용했다.</p>
+          </li>
+          <li>
+            <div class="name">공식 자료 조사·확인</div>
+            <p class="desc"><span class="task">GNU Buddy</span>학교 공식 홈페이지에서 행정 절차를 확인해 안내했다.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== 5. FAQ (2일차에 채울 자리) ===== -->
+    <section id="faq">
+      <div class="wrap">
+        <h2 class="section-title">자주 묻는 질문</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>화학공학을 전공으로 고른 이유는 무엇인가요?</summary>
+            <p>화학 반응이 실험실을 넘어 실제 제품과 공정으로 이어지는 과정이 궁금했고, 그 과정을 수치로 다루는 공학에 끌려 화학공학을 선택했습니다. 전공을 공부하면서는 측정한 값을 다시 계산하고 기준에 맞는지 확인하는 일에 특히 흥미를 느꼈고, 이것이 화학공학 시험원이라는 목표로 이어졌습니다.</p>
+          </details>
+          <details class="faq-item">
+            <summary>실험에서 다시 계산한 값이 보고서 값과 다르게 나오면 어떻게 하나요?</summary>
+            <p>먼저 제 계산이 틀렸을 가능성부터 확인하기 위해 같은 식으로 한 번 더 계산합니다. 물리학실험1에서 조의 측정값과 계산값을 다시 확인하는 역할을 맡았을 때도, 조교님이 정해 준 기준(소수점 셋째 자리, 유효숫자 4개, 상대오차 5% 이하)을 점검의 잣대로 삼았습니다. 그래도 값이 다르면 평균 주기, 중력 가속도, 상대오차 순서로 거슬러 올라가 어느 단계에서 달라졌는지 찾고, 조원들과 공유해 함께 고치겠습니다.</p>
+          </details>
+          <details class="faq-item">
+            <summary>조별 과제에서 의견이나 결과가 엇갈릴 때 어떻게 맞춰 가나요?</summary>
+            <p>먼저 모두가 같은 기준을 보고 있는지 확인합니다. 물리학실험1에서는 조교님이 정해 준 기준을 값을 점검하는 잣대로 삼았고, 화공전산에서 MATLAB 실습이 막혔을 때는 같은 과 동기와 머리를 맞대고 함께 풀어 나갔습니다. 혼자 판단하기보다 근거가 되는 기준과 자료를 함께 놓고 이야기하는 편입니다.</p>
+          </details>
+          <details class="faq-item">
+            <summary>유학생에게 처음 보는 절차를 안내할 때 어떻게 전달했나요?</summary>
+            <p>저에게도 처음인 절차가 대부분이어서, 먼저 국제처를 비롯한 학교 공식 홈페이지에서 방법을 직접 확인했습니다. 그다음 절차를 단계별로 나누어 필요한 서류와 순서를 정리해 알려 주었습니다. 수강신청, 외국인등록증 발급, 보험 문의와 납부 방법을 이렇게 안내했고, 공결이 필요할 때는 교수님께 문의 메일을 보내는 방법도 알려 주었습니다. 같은 안내를 반복하면서 점점 능숙해졌고, 학생들도 점차 한국생활에 적응해 갔습니다.</p>
+          </details>
+          <details class="faq-item">
+            <summary>시험원이 되기 위해 졸업 전까지 무엇을 준비할 계획인가요?</summary>
+            <p>먼저 지금 수강 중인 머신러닝 과정을 마치고, 실험 데이터를 MATLAB으로 직접 정리해 보며 배운 도구를 실제 과제에 써 볼 계획입니다. 또 분석화학처럼 시험·분석 업무와 직결되는 과목을 충실히 듣고, 화학분석기사 취득을 준비하려 합니다. 무엇보다 값을 한 번 더 확인하는 습관을 앞으로의 실험 과목에서도 이어 가겠습니다.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 6. 연락처 ===== -->
+    <section id="contact">
+      <div class="wrap">
+        <h2 class="section-title">연락처</h2>
+        <a class="contact-mail" href="mailto:nahee573@naver.com">nahee573@naver.com</a>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // 1) 사진이 images 폴더에 없으면 회색 상자로 자리만 표시
+    document.querySelectorAll('.photo img').forEach(function (img) {
+      function showPlaceholder() {
+        var box = img.parentElement;
+        var label = document.createElement('span');
+        label.className = 'ph-label';
+        label.textContent = img.getAttribute('data-file');
+        img.remove();
+        box.appendChild(label);
+      }
+      if (img.complete && img.naturalWidth === 0) {
+        showPlaceholder();
+      } else {
+        img.addEventListener('error', showPlaceholder);
+      }
+    });
+
+    // 2) 위쪽 메뉴를 누르면 해당 섹션으로 부드럽게 이동
+    var header = document.querySelector('.site-header');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        var target = document.querySelector(link.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        var top = target.getBoundingClientRect().top + window.pageYOffset - header.offsetHeight;
+        window.scrollTo({ top: top, behavior: reduceMotion ? 'auto' : 'smooth' });
+        history.replaceState(null, '', link.getAttribute('href'));
+      });
+    });
+
+    // 3) 지금 보고 있는 섹션의 메뉴를 강조
+    var navLinks = document.querySelectorAll('.nav a');
+    var sections = document.querySelectorAll('main section');
+
+    function updateActive() {
+      var pos = window.pageYOffset + header.offsetHeight + 40;
+      var current = sections[0].id;
+      sections.forEach(function (sec) {
+        if (sec.offsetTop <= pos) current = sec.id;
+      });
+      if (window.innerHeight + window.pageYOffset >= document.body.scrollHeight - 2) {
+        current = sections[sections.length - 1].id;
+      }
+      navLinks.forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+    }
+
+    window.addEventListener('scroll', updateActive, { passive: true });
+    window.addEventListener('resize', updateActive);
+    updateActive();
+
+    // 4) 자세히 보기 팝업 열기·닫기
+    var lastOpener = null;
+
+    document.querySelectorAll('.more-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var dlg = document.getElementById(btn.getAttribute('data-open'));
+        if (!dlg) return;
+        lastOpener = btn;
+        dlg.showModal();
+        document.body.classList.add('modal-open');
+      });
+    });
+
+    document.querySelectorAll('dialog.detail').forEach(function (dlg) {
+      dlg.querySelector('.close-btn').addEventListener('click', function () {
+        dlg.close();
+      });
+      // 팝업 바깥(어두운 부분)을 누르면 닫기
+      dlg.addEventListener('click', function (e) {
+        if (e.target === dlg) dlg.close();
+      });
+      dlg.addEventListener('close', function () {
+        document.body.classList.remove('modal-open');
+        if (lastOpener) lastOpener.focus();
+      });
+    });
+  </script>
+
+</body>
+</html>
